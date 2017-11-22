@@ -1,0 +1,28 @@
+{
+  "name": "mean-angular2-process-guide",
+  "version": "1.0.0",
+  "description": "Thesis Process Guide for Scientific Literature Research",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neethabaliga91/MEAN-Stack-Angular2-Project.git"
+  },
+  "keywords": [
+    "MEAN",
+    "Stack",
+    "Angular2"
+  ],
+  "author": "Neetha Baliga Bantwal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neethabaliga91/MEAN-Stack-Angular2-Project/issues"
+  },
+  "homepage": "https://github.com/neethabaliga91/MEAN-Stack-Angular2-Project#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^4.13.4"
+  }
+}
