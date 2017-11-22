@@ -2,12 +2,7 @@ const User = require('../models/user');
 
 module.exports = (router) => {
     router.post('/register', (req, res)=>{
-        //req.body.username
-        //req.body.password
-        //req.body.first_name
-        //req.body.last_name
-
-          if (!req.body.username) {
+        if (!req.body.username) {
             res.json({ success: false, message: 'You must provide a username' }); // Return error
           }else{
             
