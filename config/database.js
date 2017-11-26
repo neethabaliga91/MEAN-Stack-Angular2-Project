@@ -1,8 +1,8 @@
-const crypto = require('crypto');
-crypto.randomBytes(256).toString('hex');
+const crypto = require('crypto').randomBytes(256).toString('hex'); // Provides cryptographic functionality (OpenSSL's hash, HMAC, cipher, decipher, sign and verify functions)
 
+// Export config object
 module.exports = {
-    uri: 'mongodb://localhost:27017/process-guide',
-    secret : crypto,
-    db : 'process-guide'
+  uri: 'mongodb://localhost:27017/extendable-guide', // Databse URI and database name
+  secret: crypto, // Cryto-created secret
+  db: 'extendable-guide' // Database name
 }
