@@ -17,6 +17,7 @@ export class WorkflowComponent implements OnInit {
   form;
   processing = false;
   username;
+  workflows;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -89,12 +90,13 @@ export class WorkflowComponent implements OnInit {
   onworkflowSubmit() {
     this.processing = true; // Disable submit button
     this.disableFormNewworkflowForm(); // Lock form
-
+    let now = new Date();
     // Create workflow object from form fields
     const workflow = {
       title: this.form.get('title').value, // Title field
       body: this.form.get('body').value, // Body field
-      createdBy: this.username // CreatedBy field
+      createdBy: this.username,
+      createdAt : now
     }
 
     // Function to save workflow into database
@@ -108,6 +110,7 @@ export class WorkflowComponent implements OnInit {
       } else {
         this.messageClass = 'alert alert-success'; // Return success class
         this.message = data.message; // Return success message
+        this.getAllworkflows();
         // Clear form data after two seconds
         setTimeout(() => {
           this.newPost = false; // Hide form
@@ -125,11 +128,19 @@ export class WorkflowComponent implements OnInit {
     window.location.reload(); // Clear all variable states
   }
 
+  getAllworkflows(){
+  this.workflowService.getAllworkflows().subscribe(data =>{
+    this.workflows = data.workflows;
+  });
+
+  }
+
   ngOnInit() {
     // Get profile username on page load
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username; // Used when creating new workflow posts and comments
     });
+    this.getAllworkflows();
   }
 
 }

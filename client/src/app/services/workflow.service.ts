@@ -31,4 +31,9 @@ export class workflowService {
     return this.http.post(this.domain + 'workflows/newworkflow', workflow, this.options).map(res => res.json());
   }
 
+  getAllworkflows(){
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.get(this.domain + 'workflows/getAllworkflows',this.options).map(res => res.json());
+  }
+
 }

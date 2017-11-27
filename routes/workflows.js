@@ -1,5 +1,5 @@
 const User = require('../models/user'); // Import User Model Schema
-const workflow = require('../models/workflow'); // Import workflow Model Schema
+const Workflow = require('../models/workflow'); // Import workflow Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
@@ -22,10 +22,11 @@ module.exports = (router) => {
           res.json({ success: false, message: 'workflow creator is required.' }); // Return error
         } else {
           // Create the workflow object for insertion into database
-          const workflow = new workflow({
+          const workflow = new Workflow({
             title: req.body.title, // Title field
             body: req.body.body, // Body field
-            createdBy: req.body.createdBy // CreatedBy field
+            createdBy: req.body.createdBy,
+            createdAt: req.body.createdAt // CreatedBy field
           });
           // Save workflow into database
           workflow.save((err) => {
@@ -56,5 +57,18 @@ module.exports = (router) => {
     }
   });
 
+  router.get('/getAllworkflows', (req, res) => {
+    Workflow.find({}, (err, workflows)=>{
+      if (err) {
+        res.json({ success: false, message: err}); // Return error message
+      } else {
+        if(!workflows)
+          res.json({ success: false, message: err }); // Return general error message
+          else{
+            res.json({ success: true, workflows: workflows});
+          }
+      }
+    }).sort({'_id' : -1});
+  });
   return router;
 };

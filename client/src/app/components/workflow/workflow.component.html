@@ -30,8 +30,6 @@
       </ul>
     </div>
   </div>
-
-  <!-- Body Input -->
   <div class="form-group">
     <label for="body">Body</label>
     <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
@@ -54,76 +52,25 @@
 <!-- Panel Start -->
 <div *ngIf="!newPost">
   <!-- Panel Outer Layer -->
-  <div class="panel panel-primary">
+  <div class="panel panel-primary" *ngFor="let wf of workflows">
 
     <!-- Panel Title -->
     <div class="panel-heading">
-      <h3 class="panel-title">Post Title</h3>
+      <h3 class="panel-title">{{wf.title}}</h3>
     </div>
 
     <!-- Panel Body -->
     <div class="panel-body">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-      in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        {{wf.body}}
     </div>
 
     <!-- Panel Footer Start -->
     <div class="panel-footer">
-      <strong>Posted by: </strong>Neetha
+      <strong>Created by: </strong>{{wf.createdBy}}
       <br />
-      <strong>Date: </strong>June 20, 2017
+      <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
       <br />
-      <div>
-        <strong>Likes: </strong>25
-        <br />
-        <strong>Dislikes: </strong>22
-      </div>
-
-      <!-- Edit Button -->
-      <a href="#"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-      <!-- Delete Button -->
-      <a href="#"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
-
-      <!-- Likes Dropdown  -->
-      <div class="dropdown">
-        <!-- Like Button -->
-        <button type="button" name="button" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 21</button>
-        <!-- Dropdown Menu Items -->
-        <div class="dropdown-content">
-          <a href="#">Neetha</a>
-        </div>
-      </div>
-
-      <!-- Dislikes Dropdown  -->
-      <div class="dropdown">
-        <!-- Dislike Button -->
-        <button type="button" name="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 15</button>
-        <!-- Dropdown Menu Items -->
-        <div class="dropdown-content">
-          <a href="#">neetha</a>
-          <a href="#">jinder</a>
-          <a href="#">patel</a>
-        </div>
-      </div>
-
     </div>
-    <!-- Panel Footer End -->
-
-    <!-- Post Comment Box: Start -->
-    <ul class="list-group">
-      <li class="list-group-item">
-        <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment()">Post Comment</button>
-        <br />
-        <!-- <form>
-          <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
-          <button type="button" name="button" class="btn btn-sm btn-info">Submit Post</button>
-          <button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
-        </form> -->
-      </li>
-    </ul>
-    <!-- Post Comment Box: End -->
-
-  </div>
   <!-- Panel Outer Layer -->
 </div>
 <!-- Panel End -->
