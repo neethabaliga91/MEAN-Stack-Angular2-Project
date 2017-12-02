@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { Http, Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
-export class workflowService {
+export class WorkflowService {
 
   options;
   domain = this.authService.domain;
@@ -35,5 +35,16 @@ export class workflowService {
     this.createAuthenticationHeaders(); // Create headers
     return this.http.get(this.domain + 'workflows/getAllworkflows',this.options).map(res => res.json());
   }
+
+  getSingleWorkflow(id) {
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.get(this.domain + 'workflows/singleWorkflow/' + id, this.options).map(res => res.json());
+  }
+
+  editWorkflow(workflow) {
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.put(this.domain + 'workflows/updateWorkflow/', workflow, this.options).map(res => res.json());
+  }
+
 
 }

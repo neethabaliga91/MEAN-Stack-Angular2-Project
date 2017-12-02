@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { workflowService } from '../../services/workflow.service';
+import { WorkflowService } from '../../services/workflow.service';
 
 @Component({
   selector: 'app-workflow',
@@ -18,11 +19,13 @@ export class WorkflowComponent implements OnInit {
   processing = false;
   username;
   workflows;
+  id;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private workflowService: workflowService
+    private workflowService: WorkflowService,
+    private location : Location
   ) {
     this.createNewworkflowForm(); // Create new workflow form on start up
   }
@@ -75,7 +78,7 @@ export class WorkflowComponent implements OnInit {
   // Reload workflows on current page
   reloadworkflows() {
     this.loadingworkflows = true; // Used to lock button
-    // Get All workflows
+   this.getAllworkflows();
     setTimeout(() => {
       this.loadingworkflows = false; // Release button lock after four seconds
     }, 4000);
@@ -123,9 +126,15 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
+  addStep(event){
+     var target = event.target || event.srcElement || event.currentTarget;
+      var idAttr = target.attributes.id;
+      var value = idAttr.nodeValue;
+   }
+
   // Function to go back to previous page
   goBack() {
-    window.location.reload(); // Clear all variable states
+    this.location.back(); // Clear all variable states
   }
 
   getAllworkflows(){
@@ -133,7 +142,11 @@ export class WorkflowComponent implements OnInit {
     this.workflows = data.workflows;
   });
 
+ 
+  
   }
+
+
 
   ngOnInit() {
     // Get profile username on page load

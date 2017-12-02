@@ -10,13 +10,16 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
-import { workflowService } from './services/workflow.service';
+import { WorkflowService } from './services/workflow.service';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { WorkflowComponent } from './components/workflow/workflow.component';
+import { EditWorkflowComponent } from './components/workflow/edit-workflow/edit-workflow.component';
+import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/delete-workflow.component';
+import { StepComponent } from './components/workflow/step/step.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { WorkflowComponent } from './components/workflow/workflow.component';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    EditWorkflowComponent,
+    DeleteWorkflowComponent,
+    StepComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,7 @@ import { WorkflowComponent } from './components/workflow/workflow.component';
     AppRoutingModule,
     FlashMessagesModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, workflowService],
+  providers: [AuthService, AuthGuard, NotAuthGuard, WorkflowService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

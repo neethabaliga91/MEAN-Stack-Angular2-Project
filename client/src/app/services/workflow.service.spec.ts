@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { workflowService } from './workflow.service';
+import { WorkflowService } from './workflow.service';
 
-describe('workflowService', () => {
+describe('WorkflowService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [workflowService]
+      providers: [WorkflowService]
     });
   });
 
-  it('should be created', inject([workflowService], (service: workflowService) => {
+  it('should be created', inject([WorkflowService], (service: WorkflowService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -56,11 +56,15 @@
 
     <!-- Panel Title -->
     <div class="panel-heading">
-      <h3 class="panel-title">{{wf.title}}</h3>
+      <h3 class="panel-title" >{{wf.title}}</h3>
+      <!--<button type="button" name="button" class="btn btn-warning" (click)="addStep($event)" id={{wf._id}}>Add Steps</button>-->
     </div>
-
     <!-- Panel Body -->
     <div class="panel-body">
+        <a [routerLink]="['/add-step/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
+        <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
+        <a [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+        <br/>
         {{wf.body}}
     </div>
 
@@ -70,7 +74,7 @@
       <br />
       <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
       <br />
-    </div>
+   </div>
   <!-- Panel Outer Layer -->
 </div>
 <!-- Panel End -->
