@@ -15,7 +15,7 @@
    <div class="form-group">
       <label for="Title">Body</label>
       <textarea [disabled]="processing" name="body" rows="8" cols="80" placeholder="*Body" class="form-control" [(ngModel)]= "workflow.body"></textarea>
-      <a  [routerLink]="['/delete-workflow/', workflow._id]"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+      <a  [routerLink]="['/delete-workflow/', workflow._id]"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
       <button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-warning">Go Back</button>
       <button [disabled]="processing" type="submit" name="save" class="btn btn-info">Save Changes</button>
     </div>

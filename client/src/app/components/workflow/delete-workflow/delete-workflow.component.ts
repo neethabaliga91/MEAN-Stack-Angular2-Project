@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { WorkflowService } from '../../../services/workflow.service';
 
 @Component({
   selector: 'app-delete-workflow',
@@ -7,9 +9,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteWorkflowComponent implements OnInit {
 
-  constructor() { }
+  message;
+  messageClass;
+  foundWorkflow = false;
+  processing = false;
+  workflow;
+  currentUrl;
+  username;
+  
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private workflowService : WorkflowService,
+    private router: Router) { }
 
+  deleteWorkflow(){
+    this.processing = true; // Disable buttons
+    // Function for DELETE request
+    this.workflowService.deleteWorkflow(this.currentUrl.id).subscribe(data => {
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger'; 
+        this.message = data.message; 
+      } else {
+        this.messageClass = 'alert alert-success'; 
+        this.message = data.message; 
+        setTimeout(() => {
+          this.router.navigate(['/workflow']);
+        }, 2000);
+      }
+    });
+  }
+  
   ngOnInit() {
+    this.currentUrl = this.activatedRoute.snapshot.params;
+    this.workflowService.getSingleWorkflow(this.currentUrl.id).subscribe(data => {
+      // Check if GET request was success or not
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger'; // Set bootstrap error class
+        this.message = 'Workflow not found.'; // Set error message
+      } else {
+        this.workflow = {
+          title: data.workflow.title, // Set title
+          body: data.workflow.body, // Set body
+          createdBy: data.workflow.createdBy, // Set created_by field
+          createdAt: data.workflow.createdAt // Set created_at field
+        }
+        this.foundWorkflow = true;
+      }
+    });
+    
   }
 
 }

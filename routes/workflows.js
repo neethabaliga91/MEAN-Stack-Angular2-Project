@@ -101,7 +101,7 @@ module.exports = (router) => {
         } else {
           // Check if id was found in the database
           if (!workflow) {
-            res.json({ success: false, message: 'Workflow id was not found.' }); // Return error message
+            res.json({ success: false, message: err }); // Return error message
           } else {
             // Check who user is that is requesting workflow update
             User.findOne({ _id: req.decoded.userId }, (err, user) => {
@@ -139,6 +139,52 @@ module.exports = (router) => {
       });
     }
   });
-
+  
+  router.delete('/deleteWorkflow/:id', (req, res) => {
+    // Check if ID was provided in parameters
+    if (!req.params.id) {
+      res.json({ success: false, message: 'No id provided' }); // Return error message
+    } else {
+      // Check if id is found in database
+      Workflow.findOne({ _id: req.params.id }, (err, workflow) => {
+        // Check if error was found
+        if (err) {
+          res.json({ success: false, message: 'Invalid id' }); // Return error message
+        } else {
+          // Check if workflow was found in database
+          if (!workflow) {
+            res.json({ success: false, messasge: 'workflow was not found' }); // Return error message
+          } else {
+            // Get info on user who is attempting to delete post
+            User.findOne({ _id: req.decoded.userId }, (err, user) => {
+              // Check if error was found
+              if (err) {
+                res.json({ success: false, message: err }); // Return error message
+              } else {
+                // Check if user's id was found in database
+                if (!user) {
+                  res.json({ success: false, message: 'Unable to authenticate user.' }); // Return error message
+                } else {
+                  // Check if user attempting to delete workflow is the same user who originally posted the workflow
+                  if (user.username !== workflow.createdBy) {
+                    res.json({ success: false, message: 'You are not authorized to delete this workflow post' }); // Return error message
+                  } else {
+                    // Remove the workflow from database
+                    workflow.remove((err) => {
+                      if (err) {
+                        res.json({ success: false, message: err }); // Return error message
+                      } else {
+                        res.json({ success: true, message: 'workflow deleted!' }); // Return success message
+                      }
+                    });
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  });
   return router;
 };

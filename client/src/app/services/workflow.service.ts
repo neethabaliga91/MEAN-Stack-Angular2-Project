@@ -46,5 +46,9 @@ export class WorkflowService {
     return this.http.put(this.domain + 'workflows/updateWorkflow/', workflow, this.options).map(res => res.json());
   }
 
+  deleteWorkflow(id) {
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.delete(this.domain + 'workflows/deleteWorkflow/'+id, this.options).map(res => res.json());
+  }
 
 }

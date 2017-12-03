@@ -63,7 +63,7 @@
     <div class="panel-body">
         <a [routerLink]="['/add-step/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
         <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
-        <a [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+        <a  [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
         <br/>
         {{wf.body}}
     </div>
