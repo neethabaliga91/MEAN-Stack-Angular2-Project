@@ -1,5 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
-const Workflow = require('../models/workflow'); // Import workflow Model Schema
+const Workflow = require('../models/workflow');
+const Step = require('../models/step'); // Import workflow Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
@@ -56,8 +57,8 @@ module.exports = (router) => {
       }
     }
   });
-
   router.get('/getAllworkflows', (req, res) => {
+    var send = new Array(), promises =[];
     Workflow.find({}, (err, workflows)=>{
       if (err) {
         res.json({ success: false, message: err}); // Return error message
@@ -65,7 +66,24 @@ module.exports = (router) => {
         if(!workflows)
           res.json({ success: false, message: err }); // Return general error message
           else{
-            res.json({ success: true, workflows: workflows});
+           /* workflows.forEach(function(workflow) {
+              Step.find({workflowId : workflow._id}, (err, steps)=>{
+                if(!err){
+                  send.push({ _id: workflow._id,
+                    title: workflow.title,
+                    body: workflow.body,
+                    createdBy: workflow.createdBy,
+                    createdAt:workflow.createdAt,
+                    steps: steps
+                  });
+                 }
+              });
+
+            });
+
+            res.json({ success: true,  workflows: send});*/
+          
+           res.json({ success: true, workflows: workflows});
           }
       }
     }).sort({'_id' : -1});

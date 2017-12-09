@@ -54,7 +54,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard] // User must be logged in to view this route
   },
   {
-    path: 'step/:id',
+    path: 'step/:workflowId',
     component: StepComponent, // Step Route,
     canActivate: [AuthGuard] // User must be logged in to view this route
   },

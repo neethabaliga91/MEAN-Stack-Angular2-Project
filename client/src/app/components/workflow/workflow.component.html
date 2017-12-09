@@ -61,11 +61,51 @@
     </div>
     <!-- Panel Body -->
     <div class="panel-body">
-        <a [routerLink]="['/add-step/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
+        <a [routerLink]="['/step', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
         <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
         <a  [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
         <br/>
         {{wf.body}}
+
+        <div  class="container">
+          <div *ngIf="authService.loggedIn()">
+          <form class="form-inline">
+           <div class="form-group">
+            <label >Choose Theme:</label>
+            <select id="theme_selector" class="form-control">
+                  <option value="default">default</option>
+                  <option value="arrows">arrows</option>
+                  <option value="circles">circles</option>
+                  <option value="dots">dots</option>
+            </select>
+          </div>           
+          
+          <label>External Buttons:</label>
+          <div class="btn-group navbar-btn" role="group">
+              <button class="btn btn-default" id="prev-btn" type="button">Go Previous</button>
+              <button class="btn btn-default" id="next-btn" type="button">Go Next</button>
+              <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
+          </div>
+          </form>
+          
+          <br />
+          
+          <!-- SmartWizard html -->
+          <div id="smartwizard">
+          <ul *ngFor="let s of steps">
+              <li [hidden]="!(s.workflowId == wf._id)"><a href="#{{s.title}}">Step 1<br /><small>This is step description</small></a></li>
+          </ul>
+          
+          <div *ngFor="let s of steps">
+              <div [hidden]="!(s.workflowId == wf._id)" id="{{s.title}}" class="">
+                  <h2>{{s.title}}</h2>
+                  {{s.body}}
+              </div>
+          </div>
+          </div>
+          </div>
+         </div>
+          
     </div>
 
     <!-- Panel Footer Start -->
@@ -74,7 +114,10 @@
       <br />
       <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
       <br />
+
+     
    </div>
+
   <!-- Panel Outer Layer -->
 </div>
 <!-- Panel End -->

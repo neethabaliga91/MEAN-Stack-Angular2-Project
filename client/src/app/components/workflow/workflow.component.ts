@@ -19,7 +19,9 @@ export class WorkflowComponent implements OnInit {
   processing = false;
   username;
   workflows;
+  steps;
   id;
+  isSteps = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,10 +86,6 @@ export class WorkflowComponent implements OnInit {
     }, 4000);
   }
 
-  // Function to post a new comment on workflow post
-  draftComment() {
-
-  }
 
   // Function to submit a new workflow post
   onworkflowSubmit() {
@@ -114,6 +112,7 @@ export class WorkflowComponent implements OnInit {
         this.messageClass = 'alert alert-success'; // Return success class
         this.message = data.message; // Return success message
         this.getAllworkflows();
+        
         // Clear form data after two seconds
         setTimeout(() => {
           this.newPost = false; // Hide form
@@ -126,11 +125,6 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
-  addStep(event){
-     var target = event.target || event.srcElement || event.currentTarget;
-      var idAttr = target.attributes.id;
-      var value = idAttr.nodeValue;
-   }
 
   // Function to go back to previous page
   goBack() {
@@ -140,15 +134,18 @@ export class WorkflowComponent implements OnInit {
   getAllworkflows(){
   this.workflowService.getAllworkflows().subscribe(data =>{
     this.workflows = data.workflows;
-  });
-
- 
-  
+    this.isSteps = true;
+   this.getAllSteps();
+    });
   }
 
-
-
-  ngOnInit() {
+  getAllSteps(){
+    this.workflowService.getAllSteps().subscribe(data =>{
+      this.steps = data.steps;
+    });
+  }
+ 
+ ngOnInit() {
     // Get profile username on page load
     this.authService.getProfile().subscribe(profile => {
       this.username = profile.user.username; // Used when creating new workflow posts and comments

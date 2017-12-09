@@ -51,4 +51,16 @@ export class WorkflowService {
     return this.http.delete(this.domain + 'workflows/deleteWorkflow/'+id, this.options).map(res => res.json());
   }
 
+  newstep(id, step){
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.post(this.domain + 'steps/newstep/'+id, step, this.options).map(res => res.json());
+  
+  }
+
+  getAllSteps(){
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.get(this.domain + 'steps/getAllsteps',this.options).map(res => res.json());
+ 
+  }
+
 }
