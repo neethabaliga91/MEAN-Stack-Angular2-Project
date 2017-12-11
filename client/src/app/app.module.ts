@@ -20,6 +20,7 @@ import { WorkflowComponent } from './components/workflow/workflow.component';
 import { EditWorkflowComponent } from './components/workflow/edit-workflow/edit-workflow.component';
 import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/delete-workflow.component';
 import { StepComponent } from './components/workflow/step/step.component';
+import { ArchwizardModule } from 'ng2-archwizard/dist';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { StepComponent } from './components/workflow/step/step.component';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FlashMessagesModule
+    FlashMessagesModule,
+    ArchwizardModule
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard, WorkflowService],
   bootstrap: [AppComponent]

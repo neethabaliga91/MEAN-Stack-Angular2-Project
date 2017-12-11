@@ -69,41 +69,15 @@
 
         <div  class="container">
           <div *ngIf="authService.loggedIn()">
-          <form class="form-inline">
-           <div class="form-group">
-            <label >Choose Theme:</label>
-            <select id="theme_selector" class="form-control">
-                  <option value="default">default</option>
-                  <option value="arrows">arrows</option>
-                  <option value="circles">circles</option>
-                  <option value="dots">dots</option>
-            </select>
-          </div>           
-          
-          <label>External Buttons:</label>
-          <div class="btn-group navbar-btn" role="group">
-              <button class="btn btn-default" id="prev-btn" type="button">Go Previous</button>
-              <button class="btn btn-default" id="next-btn" type="button">Go Next</button>
-              <button class="btn btn-danger" id="reset-btn" type="button">Reset Wizard</button>
-          </div>
-          </form>
-          
-          <br />
-          
-          <!-- SmartWizard html -->
-          <div id="smartwizard">
-          <ul *ngFor="let s of steps">
-              <li [hidden]="!(s.workflowId == wf._id)"><a href="#{{s.title}}">Step 1<br /><small>This is step description</small></a></li>
-          </ul>
-          
-          <div *ngFor="let s of steps">
-              <div [hidden]="!(s.workflowId == wf._id)" id="{{s.title}}" class="">
-                  <h2>{{s.title}}</h2>
-                  {{s.body}}
-              </div>
-          </div>
-          </div>
-          </div>
+      
+              <wizard *ngFor="let s of steps; let i = index">
+                  <wizard-step  title="sss">
+                      {{s.body}}
+                    <button type="button" nextStep>Next Step</button>
+                    <button type="button" [goToStep]="i">Go directly to third Step</button>
+                   </wizard-step>
+                </wizard>
+         </div>
          </div>
           
     </div>
@@ -119,5 +93,6 @@
    </div>
 
   <!-- Panel Outer Layer -->
+</div>
 </div>
 <!-- Panel End -->
