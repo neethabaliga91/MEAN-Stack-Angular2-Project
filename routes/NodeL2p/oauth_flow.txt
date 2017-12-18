@@ -1,0 +1,19 @@
+curl -d "client_id=Se8Uit5Hd244cltskaVUpHFVXaZ6exvKVTKsKhKTH70yTlPlWoHHUR5RFsy30nV.app.rwth-aachen.de&scope=l2p.rwth userinfo.rwth"
+https://oauth.campus.rwth-aachen.de/oauth2waitress/oauth2.svc/code
+
+
+{
+"status":"ok",
+"device_code":"wbg2fNsVrDpGlGBnWKghdaY2hP6TMHD5",
+"expires_in":7200,
+"interval":5,
+"user_code":"XR7JLP4JGZ",
+"verification_url":"https:\/\/oauth.campus.rwth-aachen.de\/manage\/"
+}
+
+curl -d "client_id=Se8Uit5Hd244cltskaVUpHFVXaZ6exvKVTKsKhKTH70yTlPlWoHHUR5RFsy30nV.app.rwth-aachen.de&code=wbg2fNsVrDpGlGBnWKghdaY2hP6TMHD5&grant_type=device"
+
+https://oauth.campus.rwth-aachen.de/oauth2waitress/oauth2.svc/token
+
+
+curl https://www2.elearning.rwth-aachen.de/api/courseinfo?access_token=QMBh3RbVp2InoPvLhkCu1tIdfmpsBF0f4t82JdaqS2CdkmJ8EM00U12PCb6EMHhy
