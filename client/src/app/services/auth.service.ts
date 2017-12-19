@@ -73,6 +73,8 @@ export class AuthService {
     return this.http.get(this.domain + 'authentication/profile', this.options).map(res => res.json());
   }
 
+    
+
   // Function to check if user is logged in
   loggedIn() {
     return tokenNotExpired();

@@ -11,6 +11,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthService } from './services/auth.service';
 import { WorkflowService } from './services/workflow.service';
+import { SsoAuthService } from './services/ssoauth.service';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
@@ -47,7 +48,7 @@ import { RwthssoComponent } from './components/rwthsso/rwthsso.component';
     FlashMessagesModule,
     ArchwizardModule
   ],
-  providers: [AuthService, AuthGuard, NotAuthGuard, WorkflowService],
+  providers: [AuthService,SsoAuthService, AuthGuard, NotAuthGuard, WorkflowService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

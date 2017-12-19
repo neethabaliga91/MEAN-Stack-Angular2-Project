@@ -9,8 +9,8 @@ import { WorkflowComponent } from './components/workflow/workflow.component';
 import { EditWorkflowComponent } from './components/workflow/edit-workflow/edit-workflow.component';
 import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/delete-workflow.component';
 import { StepComponent } from './components/workflow/step/step.component';
-import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import { RwthssoComponent } from 'app/components/rwthsso/rwthsso.component';
 
 // Our Array of Angular 2 Routes
 const appRoutes: Routes = [
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent, // Dashboard Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
   },
   {
     path: 'register',
@@ -36,27 +36,32 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent, // Profile Route
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
   },
   {
     path: 'workflow',
     component: WorkflowComponent, // workflow Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
+  },
+  {
+    path: 'loginSSO',
+    component: RwthssoComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'edit-workflow/:id',
     component: EditWorkflowComponent, // Edit workflow Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
   },
   {
     path: 'delete-workflow/:id',
     component: DeleteWorkflowComponent, // delete workflow Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
   },
   {
     path: 'step/:workflowId',
     component: StepComponent, // Step Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route
+    canActivate: [NotAuthGuard] // User must be logged in to view this route
   },
   { path: '**', component: HomeComponent } // "Catch-All" Route
 ];

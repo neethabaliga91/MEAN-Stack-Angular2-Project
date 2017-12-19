@@ -1,7 +1,6 @@
 const User = require('../models/user'); // Import User Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
-const auth = require('./NodeL2p/l2pAuth'); 
 
 module.exports = (router) => {
   /* ==============
@@ -159,7 +158,7 @@ module.exports = (router) => {
 
   /* ================================================
   MIDDLEWARE - Used to grab user's token from headers
-  ================================================ */
+  ================================================
   router.use((req, res, next) => {
     const token = req.headers['authorization']; // Create token found in headers
     // Check if token was found in headers
@@ -177,7 +176,7 @@ module.exports = (router) => {
         }
       });
     }
-  });
+  }); */
 
   /* ===============================================================
      Route to get user's profile data

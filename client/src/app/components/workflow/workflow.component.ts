@@ -146,10 +146,7 @@ export class WorkflowComponent implements OnInit {
   }
  
  ngOnInit() {
-    // Get profile username on page load
-    this.authService.getProfile().subscribe(profile => {
-      this.username = profile.user.username; // Used when creating new workflow posts and comments
-    });
+   
     this.getAllworkflows();
   }
 

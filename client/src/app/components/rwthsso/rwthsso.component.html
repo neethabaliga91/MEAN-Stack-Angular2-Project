@@ -1,3 +1,9 @@
-<p>
-  rwthsso works!
-</p>
+<h1 class="page-header">Workflows</h1>
+
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+

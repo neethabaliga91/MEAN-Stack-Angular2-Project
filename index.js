@@ -8,6 +8,7 @@ const mongoose = require('mongoose'); // Node Tool for MongoDB
 mongoose.Promise = global.Promise;
 const config = require('./config/database'); // Mongoose Config
 const path = require('path'); // NodeJS Package for file paths
+const sso = require('./routes/sso')(router); 
 const authentication = require('./routes/authentication')(router); // Import Authentication Routes
 const workflows = require('./routes/workflows')(router); // Import workflow Routes
 const steps = require('./routes/steps')(router); 
@@ -31,6 +32,7 @@ app.use(express.static(__dirname + '/client/dist/')); // Provide static director
 app.use('/authentication', authentication); // Use Authentication routes in application
 app.use('/workflows', workflows); // Use workflow routes in application
 app.use('/steps', steps);
+app.use('/sso', sso);
 
 // Connect server to Angular 2 Index.html
 app.get('*', (req, res) => {
