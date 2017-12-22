@@ -9,6 +9,7 @@ const Schema = mongoose.Schema; // Import Schema from Mongoose
 const userSsoSchema = new Schema({
   deviceToken: { type: String},
   usertoken: { type: String},
+  accessTokenExpire : {type: String}, 
   accessToken : {type : String},
   refreshToken : {type : String}
 });
