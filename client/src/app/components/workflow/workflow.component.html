@@ -68,7 +68,7 @@
         {{wf.body}}
 
         <div  class="container">
-          <div *ngIf="authService.loggedIn()">
+          <div *ngIf="ssoAuthService.loggedIn()">
       
               <wizard *ngFor="let s of steps; let i = index">
                   <wizard-step  title="sss">

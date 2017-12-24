@@ -3,7 +3,7 @@
 
 </div>
 <div  class="container">
-<div *ngIf="authService.loggedIn()">
+<div *ngIf="ssoAuthService.loggedIn()">
     <wizard>
         <wizard-step title="Title of step 1">
           Content of Step 1

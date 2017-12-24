@@ -1,5 +1,5 @@
 const User = require('../models/user'); // Import User Model Schema
-const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
+//const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 
 module.exports = (router) => {
@@ -139,11 +139,11 @@ module.exports = (router) => {
               if (!validPassword) {
                 res.json({ success: false, message: 'Password invalid' }); // Return error
               } else {
-                const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
+               // const token = jwt.sign({ userId: user._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
                 res.json({
                   success: true,
                   message: 'Success!',
-                  token: token,
+                  token: "",
                   user: {
                     username: user.username
                   }
@@ -158,7 +158,7 @@ module.exports = (router) => {
 
   /* ================================================
   MIDDLEWARE - Used to grab user's token from headers
-  ================================================*/
+  ================================================
   router.use((req, res, next) => {
     const token = req.headers['authorization']; // Create token found in headers
     // Check if token was found in headers
@@ -176,7 +176,7 @@ module.exports = (router) => {
         }
       });
     }
-  }); 
+  }); */
 
   /* ===============================================================
      Route to get user's profile data

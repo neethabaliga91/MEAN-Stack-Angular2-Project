@@ -22,7 +22,7 @@ export class AuthService {
     this.options = new RequestOptions({
       headers: new Headers({
         'Content-Type': 'application/json', // Format set to JSON
-        'authorization': this.authToken // Attach token
+        'authtokens': this.authToken // Attach token
       })
     });
   }

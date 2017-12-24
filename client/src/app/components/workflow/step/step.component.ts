@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { SsoAuthService } from '../../../services/ssoauth.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowService } from '../../../services/workflow.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 @Component({
   selector: 'app-step',
@@ -13,11 +16,17 @@ export class StepComponent implements OnInit {
   message;
   messageClass;
   form;
+  options
   newStep = false;
   username;
   loading = true;
   processing = false;
   currentUrl;
+  authToken;
+  user;
+  expiresAt;
+  refreshToken;
+
   workflow = {
     workflowId : String,
     title : String,
@@ -33,10 +42,11 @@ export class StepComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private workflowService: WorkflowService,
+    private ssoAuthService : SsoAuthService,
     private router: Router) { 
       this.createNewstepForm();
   }
-  
+
   // Function to create new workflow form
   createNewstepForm() {
     this.form = this.formBuilder.group({

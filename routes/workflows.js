@@ -59,6 +59,7 @@ module.exports = (router) => {
   });
   router.get('/getAllworkflows', (req, res) => {
     var send = new Array(), promises =[];
+
     Workflow.find({}, (err, workflows)=>{
       if (err) {
         res.json({ success: false, message: err}); // Return error message

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
+import { SsoAuthService } from '../../services/ssoauth.service';
 import { WorkflowService } from '../../services/workflow.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class WorkflowComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    private ssoAuthService: SsoAuthService,
     private workflowService: WorkflowService,
     private location : Location
   ) {
@@ -146,7 +146,6 @@ export class WorkflowComponent implements OnInit {
   }
  
  ngOnInit() {
-   
     this.getAllworkflows();
   }
 
