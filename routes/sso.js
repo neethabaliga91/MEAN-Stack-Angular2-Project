@@ -5,7 +5,7 @@ const auth = require('./NodeL2p/l2pAuth');
 auth.setClientID('mQSZ0xgOuYww3EiRdqmhYMCG6t3sHcsfIWxPXAs7Z3v2LperWuIQaV0qMHlTKHhm.apps.rwth-aachen.de')
 const Usersso = require('../models/usersso');
 var open = require('open');
-
+const browser = require('browser-detect');
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 
 
@@ -15,7 +15,12 @@ module.exports = (router) => {
       console.log(response);
       device_code =  response.device_code;
       user_code =  response.user_code;
-      open(response.verification_url,);
+      browser_name = (browser(req.headers['user-agent']) != null) ? browser(req.headers['user-agent']).name : "";
+      if(browser_name !="chrome" && browser_name != "ie" && browser_name !="edge" && browser_name !="firefox" ){
+        browser_name = "";
+      }
+         
+      open(response.verification_url, browser_name);
        let usersso = new Usersso({
         usertoken: user_code,
         deviceToken : device_code
@@ -28,8 +33,9 @@ module.exports = (router) => {
       
      res.json({ success: true, ress : response, message : "Loading.."}); 
      });
-      });
-  router.post('/loginSSOCallback/:dc', (req, res) => {
+});
+
+router.post('/loginSSOCallback/:dc', (req, res) => {
         device_code = req.params.dc;
         console.log("Devcieqqq "+ device_code);
        
@@ -78,10 +84,9 @@ module.exports = (router) => {
              
           }
           else
-            res.json({ success: false, message: "You did not authorize in time"});
+            res.json({ success: false, message: "You did not authorize in time! Refresh the page to try again"});
         });
-
-    });
+});
 
  
      /* ================================================

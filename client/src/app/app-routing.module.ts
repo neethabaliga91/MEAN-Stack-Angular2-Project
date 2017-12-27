@@ -17,19 +17,22 @@ import { RwthssoComponent } from 'app/components/rwthsso/rwthsso.component';
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent // Default Route
+    component: HomeComponent
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'profile',
@@ -43,7 +46,8 @@ const appRoutes: Routes = [
   },
   {
     path: 'loginSSO',
-    component: RwthssoComponent
+    component: RwthssoComponent,
+    canActivate: [NotAuthGuard]
   },
   {
     path: 'edit-workflow/:id',
@@ -53,15 +57,12 @@ const appRoutes: Routes = [
   {
     path: 'delete-workflow/:id',
     component: DeleteWorkflowComponent,
-    canActivate: [AuthGuard] /*, // Edit workflow Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route*/
+    canActivate: [AuthGuard]
   },
   {
     path: 'step/:workflowId',
     component: StepComponent,
     canActivate: [AuthGuard]
-     /*, // Edit workflow Route,
-    canActivate: [AuthGuard] // User must be logged in to view this route*/
   },
   { path: '**', component: HomeComponent } // "Catch-All" Route
 ];

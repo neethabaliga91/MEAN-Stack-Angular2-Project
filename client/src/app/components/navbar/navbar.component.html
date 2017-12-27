@@ -17,10 +17,8 @@
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="ssoAuthService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
         <li><a *ngIf="ssoAuthService.loggedIn()" routerLink="/workflow">Workflow</a></li>
-        <li><a *ngIf="!ssoAuthService.loggedIn()" routerLink="/login">Login</a></li>
         <li><a *ngIf="ssoAuthService.loggedIn()" href="#" (click)="onLogoutClick()">Logout</a></li>
-        <li *ngIf="!ssoAuthService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/register">Register</a></li>
-        <li *ngIf="!ssoAuthService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/loginSSO">Login With SSo</a></li>
+        <li *ngIf="!ssoAuthService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/loginSSO">Login</a></li>
       </ul>
     </div>
     <!--/.nav-collapse -->
