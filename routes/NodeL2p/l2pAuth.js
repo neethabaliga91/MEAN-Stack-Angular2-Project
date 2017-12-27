@@ -79,13 +79,13 @@ request.post({url:tokenInfoURL, form: {client_id:clientID, access_token:accessTo
   });
 }
 
-function courseinfo(token,callback){
+function courseinfo(token, headers ,callback){
   var header = "Bearer "+token
   var options = {
-  url: 'https://www2.elearning.rwth-aachen.de/api/courseinfo',
-  headers: {
-    "Authorization" : header
-  }
+  host: '192.168.0.101',
+  port : 8080,
+  url: 'https://demo.elearning.rwth-aachen.de/api/courseinfo',
+  headers: headers
   };
   request(options,callback);
 }

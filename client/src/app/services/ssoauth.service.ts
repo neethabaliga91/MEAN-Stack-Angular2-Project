@@ -5,13 +5,14 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class SsoAuthService {
 
-  domain = "http://localhost:8080/"; // Development Domain - Not Needed in Production
+  domain = "https://localhost:8080/"; // Development Domain - Not Needed in Production
   options;
   authToken;
   refreshToken;
   expiresAt;
   user;
   res1;
+  
    constructor(
     private http: Http
   ) { }
@@ -22,11 +23,7 @@ export class SsoAuthService {
     this.options = new RequestOptions({
       headers: new Headers({
         'Content-Type': 'application/json', // Format set to JSON
-        'Authorization': this.authToken
-        /*,
-        'user' : this.user,
-        'refreshToken' : this.refreshToken,
-        'expiresAt' : this.expiresAt*/
+        'authorization': this.authToken
       })
     });
   }
@@ -40,55 +37,36 @@ export class SsoAuthService {
 
 
   // Function to get token from client local storage
- /* loadTokenAndOtherData() {
-    if (localStorage.getItem("expiresAt") !== null) {
-      this.expiresAt = localStorage.getItem('expiresAt');
-      let now = new Date();
-      if(this.expiresAt >= now){
-        if (localStorage.getItem("refreshToken") !== null) {
-          this.refreshToken = localStorage.getItem('refreshToken');
-          this.http.post(this.domain + 'sso/getRefreshToken/'+ this.refreshToken , this.options);
-         }
-       }
-      this.expiresAt = localStorage.getItem('expiresAt');
-      this.authToken = localStorage.getItem('token');
-      this.user = localStorage.getItem('user');
-      this.refreshToken = localStorage.getItem('refreshToken');
-    }
-  }*/
-
   loadTokenAndOtherData() {
-      this.expiresAt = window.localStorage.getItem('expiresAt');
-      this.authToken = window.localStorage.getItem('token');
-      this.refreshToken = window.localStorage.getItem('refreshToken');
-    
+    this.expiresAt = localStorage.getItem('expiresAt');
+    this.authToken = localStorage.getItem('token');
+    this.user = localStorage.getItem('user');
   }
+
 
   logout() {
     this.authToken = null; // Set token to null
     this.user = null; // Set user to null
     this.expiresAt = null;
     this.refreshToken = null;
-    window.localStorage.clear(); // Clear local storage
+    localStorage.clear(); // Clear local storage
   }
 
-  storeUserData(token, user, expiresAt, refreshToken) {
-    window.localStorage.setItem('token', token);
-    window.localStorage.setItem('user', JSON.stringify(user)); 
-    window.localStorage.setItem('expiresAt', expiresAt);
-    window.localStorage.setItem('refreshToken', refreshToken);
+  storeUserData(token, user, expiresAt) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user)); 
+   localStorage.setItem('expiresAt', expiresAt);
     this.authToken = token; 
     this.user = user; 
     this.expiresAt = expiresAt;
-    this.refreshToken = refreshToken;
   }
 
   loggedIn(){
-    let now = new Date();
     this.loadTokenAndOtherData();
-    if(this.expiresAt !== null && this.expiresAt < now){
-      return true;
-    }
+    if(this.authToken !== null)
+    return true;
+    else
+    return false;
   }
 
 }

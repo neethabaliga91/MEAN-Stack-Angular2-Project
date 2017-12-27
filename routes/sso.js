@@ -6,13 +6,16 @@ auth.setClientID('mQSZ0xgOuYww3EiRdqmhYMCG6t3sHcsfIWxPXAs7Z3v2LperWuIQaV0qMHlTKH
 const Usersso = require('../models/usersso');
 var open = require('open');
 
+const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
+
+
 module.exports = (router) => {
    router.post('/loginSSO', (req, res) => {
     auth.obtainUserCode(function(response){
       console.log(response);
       device_code =  response.device_code;
       user_code =  response.user_code;
-      open(response.verification_url);
+      open(response.verification_url,);
        let usersso = new Usersso({
         usertoken: user_code,
         deviceToken : device_code
@@ -64,7 +67,12 @@ module.exports = (router) => {
                     }
                   });
                  
-              res.json({ success: true, message : "User validated!", token : accessToken, user : usersso, expiresAt : expiresAt, refreshToken : refreshToken }); 
+                 headers = req.headers;
+                 headers.authorization = "Bearer " + accessToken;
+                 auth.courseinfo(accessToken, headers, function(response3){
+                  console.log(response3);
+                });
+              res.json({ success: true, message : "User validated!", token : accessToken, user: usersso, expiresAt : expiresAt}); 
               
                 });
              
@@ -75,54 +83,43 @@ module.exports = (router) => {
 
     });
 
-    router.post('/getRefreshToken/:refreshToken', (req, res) => {
-      refreshToken = req.params.refreshToken;
-      console.log("We are in getRefresjh: "+ refreshToken);
-      auth.refreshToken(refreshToken,function(response){
-        console.log(response);
-          if(response.status == "ok"){
-            Usersso.findOne({ refreshToken: refreshToken }, (err, usersso) => {
-              if(!err){
-                let now = new Date();
-                usersso.accessToken = response.access_token;
-                usersso.accessTokenExpire =  now + response.expires_in;
-               
-                usersso.save((err) => {
-                  if(err){
-                    res.json({ success: false, message : "User not saved"}); 
-                  }
-                });
-              }
-              });
-              window.localStorage.setItem('token', usersso.accessToken);
-              window. localStorage.setItem('user', JSON.stringify(usersso)); 
-              window.localStorage.setItem('expiresAt', usersso.accessTokenExpire);
-              window.localStorage.setItem('refreshToken', refreshToken);
-            res.json({ success: true, message : "User validated!"}); 
-          }else{
-            res.json({ success: false, message : "Token could not be refreshed" }); 
-          }
-      });
-   });
-
+ 
      /* ================================================
   MIDDLEWARE - Used to grab user's token from headers
   ================================================*/
   router.use((req, res, next) => {
     console.log(req.headers);
-    const token = req.headers['Authorization']; // Create token found in headers
+    token = req.headers['authorization']; // Create token found in headers
     // Check if token was found in headers
+    console.log("TOKEN:" + token);
     if (!token) {
       res.json({ success: false, message: 'No token provided' }); // Return error
     } else {
-      let now = new Date();
-      const expiresAt = window.localStorage.getItem("expiresAt");
-      if (expiresAt !== null && expiresAt < now) {
-       next();
-      } else {
-        res.json({ success: false, message: 'Token invalid'});
-      }
-    }
-  }); 
+      Usersso.findOne({ accessToken: token }, (err, usersso) => {
+        if(!err){
+          let now = new Date();
+          if(now < usersso.accessTokenExpire){
+            auth.refreshToken(usersso.refreshToken,function(response){
+              if(response.status == "ok"){
+                usersso.accessToken = response.access_token;
+                usersso.accessTokenExpire =  now + response.expires_in;
+                usersso.save((err) => {});
+              }
+          });
+        }
+          token = usersso.accessToken;
+          jwt.verify(token, config.secret, (err1, decoded) => {
+            // Check if error is expired or invalid
+            if (err1) {
+              res.json({ success: false, message: 'Token invalid: ' + err1 }); // Return error for token validation
+            } else {
+              req.decoded = decoded; // Create global variable to use in any request beyond
+              next(); // Exit middleware
+            }
+          });
+        }
+    });
+  }
+}); 
   return router; // Return router object to main index.js
 }

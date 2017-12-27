@@ -44,7 +44,7 @@ export class StepComponent implements OnInit {
     private workflowService: WorkflowService,
     private ssoAuthService : SsoAuthService,
     private router: Router) { 
-      this.createNewstepForm();
+    this.createNewstepForm();
   }
 
   // Function to create new workflow form

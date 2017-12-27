@@ -2,6 +2,8 @@
    Import Node Modules
 =================== */
 const express = require('express'); // Fast, unopinionated, minimalist web framework for node.
+const fs = require('fs');
+const https = require('https');
 const app = express(); // Initiate Express Application
 const router = express.Router(); // Creates a new router object.
 const mongoose = require('mongoose'); // Node Tool for MongoDB
@@ -25,10 +27,21 @@ mongoose.connect(config.uri, (err) => {
 });
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: 'https://localhost:4200' }));
 app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(bodyParser.json()); // parse application/json
 app.use(express.static(__dirname + '/client/dist/')); // Provide static directory for frontend
+
+const httpsOptions= {
+  key: fs.readFileSync(path.join(__dirname+'/client/server/', 'ssl', 'server.crt')),
+  cert: fs.readFileSync(path.join(__dirname+'/client/server/', 'ssl', 'key.pem'))
+};
+
+var options = {
+  key: fs.readFileSync(__dirname+'/client/server/ssl'+'/key.pem', 'utf8'),
+  cert: fs.readFileSync(__dirname+'/client/server/ssl'+'/server.crt', 'utf8')
+};
+
 app.use('/authentication', authentication); // Use Authentication routes in application
 app.use('/workflows', workflows); // Use workflow routes in application
 app.use('/steps', steps);
@@ -40,6 +53,6 @@ app.get('*', (req, res) => {
 });
 
 // Start Server: Listen on port 8080
-app.listen(8080, () => {
+https.createServer(options, app).listen(8080, () => {
   console.log('Listening on port 8080');
 });

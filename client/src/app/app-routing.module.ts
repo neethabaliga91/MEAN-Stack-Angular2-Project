@@ -33,11 +33,13 @@ const appRoutes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'workflow',
-    component: WorkflowComponent
+    component: WorkflowComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'loginSSO',
@@ -45,16 +47,20 @@ const appRoutes: Routes = [
   },
   {
     path: 'edit-workflow/:id',
-    component: EditWorkflowComponent
+    component: EditWorkflowComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'delete-workflow/:id',
-    component: DeleteWorkflowComponent /*, // Edit workflow Route,
+    component: DeleteWorkflowComponent,
+    canActivate: [AuthGuard] /*, // Edit workflow Route,
     canActivate: [AuthGuard] // User must be logged in to view this route*/
   },
   {
     path: 'step/:workflowId',
-    component: StepComponent /*, // Edit workflow Route,
+    component: StepComponent,
+    canActivate: [AuthGuard]
+     /*, // Edit workflow Route,
     canActivate: [AuthGuard] // User must be logged in to view this route*/
   },
   { path: '**', component: HomeComponent } // "Catch-All" Route

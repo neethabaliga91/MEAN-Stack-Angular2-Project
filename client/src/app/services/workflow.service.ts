@@ -13,42 +13,52 @@ export class WorkflowService {
     private http: Http
   ) { }
 
+  createAuthenticationHeaders() {
+    this.ssoAuthService.loadTokenAndOtherData(); // Get token so it can be attached to headers
+    // Headers configuration options
+    this.options = new RequestOptions({
+      headers: new Headers({
+        'Content-Type': 'application/json', // Format set to JSON
+        'authorization': this.ssoAuthService.authToken // Attach token
+      })
+    });
+  }
   // Function to create headers, add token, to be used in HTTP requests
 
   // Function to create a new workflow post
   newworkflow(workflow) {
-    this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+    this.createAuthenticationHeaders(); // Create headers
     return this.http.post(this.domain + 'workflows/newworkflow', workflow, this.options).map(res => res.json());
   }
 
   getAllworkflows(){
-    this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+    this.createAuthenticationHeaders(); // Create headers
     return this.http.get(this.domain + 'workflows/getAllworkflows',this.options).map(res => res.json());
   }
 
   getSingleWorkflow(id) {
-    this.ssoAuthService.createAuthenticationHeaders();// Create headers
+    this.createAuthenticationHeaders();// Create headers
     return this.http.get(this.domain + 'workflows/singleWorkflow/' + id, this.options).map(res => res.json());
   }
 
   editWorkflow(workflow) {
-     this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+     this.createAuthenticationHeaders(); // Create headers
     return this.http.put(this.domain + 'workflows/updateWorkflow/', workflow, this.options).map(res => res.json());
   }
 
   deleteWorkflow(id) {
-     this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+     this.createAuthenticationHeaders(); // Create headers
     return this.http.delete(this.domain + 'workflows/deleteWorkflow/'+id, this.options).map(res => res.json());
   }
 
   newstep(id, step){
-     this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+     this.createAuthenticationHeaders(); // Create headers
     return this.http.post(this.domain + 'steps/newstep/'+id, step, this.options).map(res => res.json());
   
   }
 
   getAllSteps(){
-     this.ssoAuthService.createAuthenticationHeaders(); // Create headers
+     this.createAuthenticationHeaders(); // Create headers
     return this.http.get(this.domain + 'steps/getAllsteps',this.options).map(res => res.json());
  
   }
