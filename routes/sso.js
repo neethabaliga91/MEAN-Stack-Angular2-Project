@@ -72,7 +72,14 @@ router.post('/loginSSOCallback/:dc', (req, res) => {
                       res.json({ success: false, message : "User not saved"}); 
                     }
                   });
-                 
+                  const user = new User({
+                    first_name: "Neetha",
+                    last_name: "Baliga", 
+                    usersso_id: usersso._id
+                  });
+                  // Save workflow into database
+                  user.save((err) => {
+                  });
                  headers = req.headers;
                  headers.authorization = "Bearer " + accessToken;
                  auth.courseinfo(accessToken, headers, function(response3){
