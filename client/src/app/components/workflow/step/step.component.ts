@@ -128,6 +128,7 @@ export class StepComponent implements OnInit {
 
   ngOnInit() {
     this.newStep = true;
+    this.username = this.ssoAuthService.user._Id;
     this.currentUrl = this.activatedRoute.snapshot.params; // When component loads, grab the id
     // Function to GET current workflow with id in params
     this.workflowService.getSingleWorkflow(this.currentUrl.workflowId).subscribe(data => {

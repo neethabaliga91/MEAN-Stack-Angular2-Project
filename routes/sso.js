@@ -85,7 +85,7 @@ router.post('/loginSSOCallback/:dc', (req, res) => {
                  auth.courseinfo(accessToken, headers, function(response3){
                   console.log(response3);
                 });
-              res.json({ success: true, message : "User validated!", token : accessToken, user: usersso, expiresAt : expiresAt}); 
+              res.json({ success: true, message : "User validated!", token : accessToken, user: usersso._id, expiresAt : expiresAt}); 
               
                 });
              
@@ -119,17 +119,13 @@ router.post('/loginSSOCallback/:dc', (req, res) => {
               }
           });
         }
-          token = usersso.accessToken;
-          jwt.verify(token, config.secret, (err1, decoded) => {
-            // Check if error is expired or invalid
-            if (err1) {
-              res.json({ success: false, message: 'Token invalid: ' + err1 }); // Return error for token validation
-            } else {
-              req.decoded = decoded; // Create global variable to use in any request beyond
+        req.headers['authorization'] = usersso.accessToken;
+        token = req.headers['authorization'];
+        req.decoded = Array();
+        req.decoded.token = token; 
+        req.decoded.userId = usersso._id;// Create global variable to use in any request beyond
               next(); // Exit middleware
-            }
-          });
-        }
+       }
     });
   }
 }); 

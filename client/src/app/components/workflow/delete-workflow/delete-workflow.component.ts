@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowService } from '../../../services/workflow.service';
+import { SsoAuthService } from 'app/services/ssoauth.service';
 
 @Component({
   selector: 'app-delete-workflow',
@@ -20,6 +21,7 @@ export class DeleteWorkflowComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private workflowService : WorkflowService,
+    private ssoAuthService : SsoAuthService,
     private router: Router) { }
 
   deleteWorkflow(){
@@ -50,7 +52,7 @@ export class DeleteWorkflowComponent implements OnInit {
         this.workflow = {
           title: data.workflow.title, // Set title
           body: data.workflow.body, // Set body
-          createdBy: data.workflow.createdBy, // Set created_by field
+          createdBy:  this.ssoAuthService.user._Id, // Set created_by field
           createdAt: data.workflow.createdAt // Set created_at field
         }
         this.foundWorkflow = true;

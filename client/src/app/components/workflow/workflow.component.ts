@@ -74,6 +74,7 @@ export class WorkflowComponent implements OnInit {
 
   // Function to display new workflow form
   newworkflowForm() {
+    this.username = this.ssoAuthService.user;
     this.newPost = true; // Show new workflow form
   }
 
@@ -96,7 +97,7 @@ export class WorkflowComponent implements OnInit {
     const workflow = {
       title: this.form.get('title').value, // Title field
       body: this.form.get('body').value, // Body field
-      createdBy: this.username,
+      createdBy: this.workflowService.username,
       createdAt : now
     }
 
@@ -146,6 +147,7 @@ export class WorkflowComponent implements OnInit {
   }
  
  ngOnInit() {
+   this.username = this.workflowService.username;
     this.getAllworkflows();
   }
 

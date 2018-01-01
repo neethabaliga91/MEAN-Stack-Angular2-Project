@@ -61,22 +61,18 @@
     </div>
     <!-- Panel Body -->
     <div class="panel-body">
-        <a [routerLink]="['/step', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
-        <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
-        <a  [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
+        <a [routerLink]="['/step', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
+        <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
+        <a  [routerLink]="['/delete-workflow/', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
         <br/>
         {{wf.body}}
 
         <div  class="container">
           <div *ngIf="ssoAuthService.loggedIn()">
       
-              <wizard *ngFor="let s of steps; let i = index">
-                  <wizard-step  title="sss">
-                      {{s.body}}
-                    <button type="button" nextStep>Next Step</button>
-                    <button type="button" [goToStep]="i">Go directly to third Step</button>
-                   </wizard-step>
-                </wizard>
+              <div *ngFor="let s of steps; let i = index">
+                  <div *ngIf="s.workflowId == wf._id">{{s.body}}</div>
+                </div>
          </div>
          </div>
           

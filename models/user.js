@@ -131,7 +131,6 @@ const passwordValidators = [
 
 // User Model Definition
 const userSchema = new Schema({
-  id: {type : Schema.ObjectId},
   email: { type: String,  unique: true, lowercase: true, validate: emailValidators },
   username: { type: String, unique: true, lowercase: true, validate: usernameValidators },
   password: { type: String, validate: passwordValidators },

@@ -69,4 +69,10 @@ export class SsoAuthService {
     return false;
   }
 
+  getUser(){
+   this.loadTokenAndOtherData();
+   var userobj = JSON.parse(this.user);
+   return userobj._id;
+  }
+
 }

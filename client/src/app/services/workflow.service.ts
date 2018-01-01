@@ -7,7 +7,7 @@ export class WorkflowService {
 
   options;
   domain = this.ssoAuthService.domain;
-
+username;
   constructor(
     private ssoAuthService: SsoAuthService,
     private http: Http
@@ -16,6 +16,7 @@ export class WorkflowService {
   createAuthenticationHeaders() {
     this.ssoAuthService.loadTokenAndOtherData(); // Get token so it can be attached to headers
     // Headers configuration options
+    this.username = this.ssoAuthService.user;
     this.options = new RequestOptions({
       headers: new Headers({
         'Content-Type': 'application/json', // Format set to JSON
