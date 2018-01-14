@@ -121,8 +121,6 @@ module.exports = (router) => {
                 } else {
                   // Check if user logged in the the one requesting to update workflow 
                   if (user._id != workflow.createdBy) {
-                    console.log("USERID: "+ typeof user._id);
-                    console.log("USERIDWW: "+ typeof workflow.createdBy);
                     res.json({ success: false, message: 'You are not authorized to edit this Workflow.' }); // Return error message
                   } else {
                     workflow.title = req.body.title; // Save latest workflow title

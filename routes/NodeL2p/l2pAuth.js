@@ -9,7 +9,7 @@ function setClientID(id){
 }
 
 function obtainUserCode(callback){
-request.post({url:obtainURL, form: {client_id:clientID, scope:'l2p.rwth userinfo.rwth'}}, 
+request.post({url:obtainURL, form: {client_id:clientID, scope:'l2p2013.rwth userinfo.rwth'}}, 
   function(err,httpResponse,body){ 
     if (!err && httpResponse.statusCode == 200) {
       var parsed = JSON.parse(body);

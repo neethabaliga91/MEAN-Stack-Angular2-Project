@@ -82,8 +82,10 @@ router.post('/loginSSOCallback/:dc', (req, res) => {
                   });
                  headers = req.headers;
                  headers.authorization = "Bearer " + accessToken;
-                 auth.courseinfo(accessToken, headers, function(response3){
-                  console.log(response3);
+           
+                
+                auth.callAPI(accessToken, "https://www3.elearning.rwth-aachen.de/_vti_bin/L2PServices/api.svc/v1/viewAllCourseInfo", function(response){
+                  console.log(response);
                 });
               res.json({ success: true, message : "User validated!", token : accessToken, user: usersso._id, expiresAt : expiresAt}); 
               
