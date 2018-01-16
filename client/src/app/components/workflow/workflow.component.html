@@ -16,6 +16,10 @@
 <br />
 <br />
 
+<a [routerLink]="['/template-workflow/']" *ngIf="newPost" ><button type="button" name="button" class="btn btn-sm btn-warning">Use Template</button></a>
+
+<br />
+<br />
 <!-- New workflow Form -->
 <form [formGroup]="form" name="workflowForm" (submit)="onworkflowSubmit()" *ngIf="newPost">
   <!-- Title Input -->

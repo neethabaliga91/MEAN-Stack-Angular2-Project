@@ -23,6 +23,8 @@ import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/d
 import { StepComponent } from './components/workflow/step/step.component';
 import { ArchwizardModule } from 'ng2-archwizard/dist';
 import { RwthssoComponent } from './components/rwthsso/rwthsso.component';
+import { TemplateWorkflowComponent } from './components/workflow/template-workflow/template-workflow.component';
+import { EditTemplateComponent } from './components/workflow/template-workflow/edit-template/edit-template.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { RwthssoComponent } from './components/rwthsso/rwthsso.component';
     EditWorkflowComponent,
     DeleteWorkflowComponent,
     StepComponent,
-    RwthssoComponent
+    RwthssoComponent,
+    TemplateWorkflowComponent,
+    EditTemplateComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { WorkflowComponent } from './components/workflow/workflow.component';
 import { EditWorkflowComponent } from './components/workflow/edit-workflow/edit-workflow.component';
 import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/delete-workflow.component';
+import { TemplateWorkflowComponent } from './components/workflow/template-workflow/template-workflow.component';
+import { EditTemplateComponent } from './components/workflow/template-workflow/edit-template/edit-template.component';
 import { StepComponent } from './components/workflow/step/step.component';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { AuthGuard } from './guards/auth.guard';
@@ -62,6 +64,16 @@ const appRoutes: Routes = [
   {
     path: 'step/:workflowId',
     component: StepComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'template-workflow',
+    component: TemplateWorkflowComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'edit-template/:id',
+    component: EditTemplateComponent,
     canActivate: [AuthGuard]
   },
   { path: '**', component: HomeComponent } // "Catch-All" Route

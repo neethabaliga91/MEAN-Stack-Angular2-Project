@@ -1,0 +1,49 @@
+<h1 class="page-header">Templates</h1>
+
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message" *ngIf="message && newPost">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<div *ngIf="!newPost">
+  <!-- Panel Outer Layer -->
+  <div  *ngFor="let wf of workflows">
+   <div class="panel panel-primary" *ngIf="admin_id == wf.createdBy">
+    <!-- Panel Title -->
+    <div class="panel-heading">
+      
+      <h3 class="panel-title"> {{wf.title}}</h3>
+      <!--<button type="button" name="button" class="btn btn-warning" (click)="addStep($event)" id={{wf._id}}>Add Steps</button>-->
+    </div>
+    <!-- Panel Body -->
+    <div class="panel-body">
+        <a [routerLink]="['/edit-template/', wf._id]"><button type="button" name="button" class="btn btn-sm btn-warning">Edit and Use</button></a>
+        <br/>
+        {{wf.body}}
+
+        <div  class="container">
+          <div *ngIf="ssoAuthService.loggedIn()">
+      
+              <div *ngFor="let s of steps; let i = index">
+                  <div *ngIf="s.workflowId == wf._id">{{s.body}}</div>
+                </div>
+         </div>
+         </div>
+          
+    </div>
+
+    <!-- Panel Footer Start -->
+    <div class="panel-footer">
+      <strong>Created by: </strong>{{wf.createdBy}}
+      <br />
+      <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
+      <br />
+
+     
+   </div>
+  </div>
+  <!-- Panel Outer Layer -->
+</div>
+</div>

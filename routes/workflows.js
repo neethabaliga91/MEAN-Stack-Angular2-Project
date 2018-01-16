@@ -145,6 +145,91 @@ module.exports = (router) => {
       });
     }
   });
+
+  router.put('/updateTemplate', (req, res) => {
+    // Check if id was provided
+    console.log('HI');
+    if (!req.body._id) {
+      res.json({ success: false, message: 'No Workflow id provided' }); // Return error message
+    } else {
+      // Check if id exists in database
+      console.log('HI');
+      Workflow.findOne({ _id: req.body._id }, (err, workflow) => {
+        // Check if id is a valid ID
+        if (err) {
+          res.json({ success: false, message: 'Not a valid Workflow id' }); // Return error message
+        } else {
+          // Check if id was found in the database
+          if (!workflow) {
+            res.json({ success: false, message: err }); // Return error message
+          } else {
+            // Check who user is that is requesting workflow update
+            Usersso.findOne({ _id: req.decoded.userId }, (err, user) => {
+              // Check if error was found
+              if (err) {
+                res.json({ success: false, message: err }); // Return error message
+              } else {
+                // Check if user was found in the database
+                if (!user) {
+                  res.json({ success: false, message: 'Unable to authenticate user.' }); // Return error message
+                } else {
+                  const workflow = new Workflow({
+                      title: req.body.title, // Title field
+                      body: req.body.body, // Body field
+                      createdBy: req.decoded.userId,
+                      createdAt: req.body.createdAt // CreatedBy field
+                    });
+                    // Save workflow into database
+                    workflow.save((err) => {
+                      // Check if error
+                      if (err) {
+                        // Check if error is a validation error
+                        if (err.errors) {
+                          // Check if validation error is in the title field
+                          if (err.errors.title) {
+                            res.json({ success: false, message: err.errors.title.message }); 
+                          } else {
+                            if (err.errors.body) {
+                              res.json({ success: false, message: err.errors.body.message });
+                            } else {
+                              res.json({ success: false, message: err });
+                            }
+                          }
+                        } else {
+                          res.json({ success: false, message: err }); 
+                        }
+                      } 
+                    });
+                    Workflow.findOne({ createdBy: req.decoded.userId, createdAt : req.body.createdAt }, (err, wf) => {
+                     wf_id = wf._id;
+                     Step.find({workflowId : workflow._id}, (err, steps)=>{
+                      if (err) {
+                        res.json({ success: false, message: err}); // Return error message
+                      } else {
+                        if(!steps)
+                          res.json({ success: false, message: err }); // Return general error message
+                          else{
+                            for (var i=0; i<steps.length; i++) {
+                              var newstep = new Step({
+                                workflowId :  wf_id, // Title field
+                                title: steps[i].title, // Body field
+                                body:  steps[i].body
+                              });
+                                newstep.save({});
+                            }
+                            res.json({ success: false, message: "Template created as workflow!" });
+                          }
+                      }
+                    });
+                    });
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  });
   
   router.delete('/deleteWorkflow/:id', (req, res) => {
     // Check if ID was provided in parameters
