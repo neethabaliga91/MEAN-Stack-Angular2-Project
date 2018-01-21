@@ -43,6 +43,11 @@ export class SsoAuthService {
     this.user = localStorage.getItem('user');
   }
 
+  getProfile() {
+    this.createAuthenticationHeaders(); // Create headers before sending to API
+    return this.http.get(this.domain + 'sso/profile', this.options).map(res => res.json());
+  }
+
 
   logout() {
     this.authToken = null; // Set token to null
@@ -72,7 +77,7 @@ export class SsoAuthService {
   getUser(){
    this.loadTokenAndOtherData();
    var userobj = JSON.parse(this.user);
-   return userobj._id;
+   return userobj;
   }
 
 }

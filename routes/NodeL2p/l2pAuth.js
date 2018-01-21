@@ -91,7 +91,7 @@ function courseinfo(token, headers ,callback){
 }
 
 function callAPI(token,apiurl,callback){
-  var header = "Bearer "+token
+  var header = "Bearer "+token;
   var options = {
   url: apiurl,
   headers: {

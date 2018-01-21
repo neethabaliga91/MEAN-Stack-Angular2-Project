@@ -11,12 +11,15 @@
 <button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="newworkflowForm()">New Workflow</button>
 
 <!-- Reload Button -->
-<button [disabled]="loadingworkflows" type="button" name="button" class="btn btn-default" *ngIf="!newPost" (click)="reloadworkflows()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Reload</button>
+<button [disabled]="loadingworkflows" type="button" name="button" class="btn btn-default" *ngIf="!newPost" (click)="reloadworkflows()">
+  <span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Reload</button>
 
 <br />
 <br />
 
-<a [routerLink]="['/template-workflow/']" *ngIf="newPost" ><button type="button" name="button" class="btn btn-sm btn-warning">Use Template</button></a>
+<a [routerLink]="['/template-workflow/']" *ngIf="newPost">
+  <button type="button" name="button" class="btn btn-sm btn-warning">Use Template</button>
+</a>
 
 <br />
 <br />
@@ -26,7 +29,8 @@
   <div class="form-group">
     <label for="title">Title</label>
     <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
-      <input type="text" name="title" class="form-control" placeholder="*workflow Title" autocomplete="off" formControlName="title" />
+      <input type="text" name="title" class="form-control" placeholder="*workflow Title" autocomplete="off" formControlName="title"
+      />
       <ul class="help-block">
         <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
         <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
@@ -51,48 +55,72 @@
   <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
 
 </form>
-<!-- New workflow Form -->
+<div class="container">
+  <div *ngIf="!newPost && workflows && workflows.length !=0">
+    <div  class="panel panel-primary" *ngFor="let wf of workflows">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{wf.title}}</h3>
+      </div>
+      <div class="panel-body">
 
-<!-- Panel Start -->
-<div *ngIf="!newPost">
-  <!-- Panel Outer Layer -->
-  <div class="panel panel-primary" *ngFor="let wf of workflows">
+        <form class="form-inline">
+          <div class="form-group">
+            <label>Choose Theme:</label>
+            <select class="theme_selector form-control">
+              <option value="default">default</option>
+              <option value="arrows">arrows</option>
+              <option value="circles">circles</option>
+              <option value="dots">dots</option>
+            </select>
+          </div>
 
-    <!-- Panel Title -->
-    <div class="panel-heading">
-      <h3 class="panel-title" >{{wf.title}}</h3>
-      <!--<button type="button" name="button" class="btn btn-warning" (click)="addStep($event)" id={{wf._id}}>Add Steps</button>-->
-    </div>
-    <!-- Panel Body -->
-    <div class="panel-body">
-        <a [routerLink]="['/step', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Add Step</button></a>
-        <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button type="button" name="button" class="btn btn-sm btn-warning">Edit</button></a>
-        <a  [routerLink]="['/delete-workflow/', wf._id]" *ngIf="ssoAuthService.getUser() === wf.createdBy"><button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a>
-        <br/>
-        {{wf.body}}
-
-        <div  class="container">
-          <div *ngIf="ssoAuthService.loggedIn()">
-      
-              <div *ngFor="let s of steps; let i = index">
-                  <div *ngIf="s.workflowId == wf._id">{{s.body}}</div>
-                </div>
-         </div>
-         </div>
+          <label>External Buttons:</label>
+          <div class="btn-group navbar-btn" role="group">
+            <button class="btn btn-default prev-btn"  type="button">Go Previous</button>
+            <button class="btn btn-default next-btn"  type="button">Go Next</button>
+            <button class="btn btn-danger reset-btn" type="button">Reset Wizard</button>
+          </div>
+        </form>
+        <br />
+        <br />
+        <a [routerLink]="['/step', wf._id]" *ngIf="username === wf.createdBy">
+          <button type="button" name="button" class="btn btn-sm btn-info">Add Step</button>
+        </a>
+        <a [routerLink]="['/edit-workflow/', wf._id]" *ngIf="username === wf.createdBy">
+          <button type="button" name="button" class="btn btn-sm btn-warning">Edit</button>
+        </a>
+        <a [routerLink]="['/delete-workflow/', wf._id]" *ngIf="username === wf.createdBy">
+          <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger">Delete</button>
+        </a>
+        <br/> {{wf.body}}
+        <br />
+        <div id="smartwizard" >
+        <div *ngFor="let s of subprocesses; let i = index" >
+            <ul>
+              <li *ngIf="s.workflowId == wf._id">
+                <a href="#step-{{i}}">{{s.title}}
+                <br />
+                <small>This is step description</small>
+                </a>
+              </li>
+            </ul>
           
+            <div *ngIf="s.workflowId == wf._id">
+              <div  id="step-{{i}}" class="">
+                <h2>{{s.title}}</h2>
+                {{s.body}}
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
+      <div class="panel-footer">
+        <strong>Created by: </strong>{{wf.createdBy}}
+        <br />
+        <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
+        <br />
+      </div>
+
     </div>
-
-    <!-- Panel Footer Start -->
-    <div class="panel-footer">
-      <strong>Created by: </strong>{{wf.createdBy}}
-      <br />
-      <strong>Date: </strong>{{wf.createdAt | date : 'MMM dd, yyyy'}}
-      <br />
-
-     
-   </div>
-
-  <!-- Panel Outer Layer -->
+  </div>
 </div>
-</div>
-<!-- Panel End -->

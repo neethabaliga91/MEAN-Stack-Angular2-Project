@@ -4,7 +4,8 @@ const Step = require('../models/step'); // Import workflow Model Schema
 const jwt = require('jsonwebtoken'); // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 const Usersso = require('../models/usersso');
-
+const auth = require('./NodeL2p/l2pAuth'); 
+auth.setClientID('mQSZ0xgOuYww3EiRdqmhYMCG6t3sHcsfIWxPXAs7Z3v2LperWuIQaV0qMHlTKHhm.apps.rwth-aachen.de');
 module.exports = (router) => {
 
   /* ===============================================================
@@ -64,7 +65,13 @@ module.exports = (router) => {
   });
   router.get('/getAllworkflows', (req, res) => {
     var send = new Array(), promises =[];
+    token = req.headers['authorization'];
+    url = "https://www3.elearning.rwth-aachen.de/_vti_bin/L2PServices/api.svc/v1/viewAllCourseInfo?accessToken="+token;
+    auth.callAPI(token, url, function(response1){
+      console.log(response1);
+    });
     Workflow.find({}, (err, workflows)=>{
+      console.log("HI");
       if (err) {
         res.json({ success: false, message: err}); // Return error message
       } else {
@@ -74,13 +81,15 @@ module.exports = (router) => {
            res.json({ success: true, workflows: workflows});
           }
       }
-    }).sort({'_id' : -1});
+    });
+
   });
 
   router.get('/singleWorkflow/:id', (req, res) => {
     if(!req.params.id){
       res.json({success : false, message: "Id not entered"});
     }
+   
    Workflow.findOne({ _id : req.params.id }, (err, workflow) =>{
      if(err){
        res.json({success: false, message : "Not a valid Workflow Id"});

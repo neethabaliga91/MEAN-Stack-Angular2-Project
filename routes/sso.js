@@ -2,7 +2,7 @@ const User = require('../models/user'); // Import User Model Schema
  // Compact, URL-safe means of representing claims to be transferred between two parties.
 const config = require('../config/database'); // Import database configuration
 const auth = require('./NodeL2p/l2pAuth'); 
-auth.setClientID('mQSZ0xgOuYww3EiRdqmhYMCG6t3sHcsfIWxPXAs7Z3v2LperWuIQaV0qMHlTKHhm.apps.rwth-aachen.de')
+auth.setClientID('mQSZ0xgOuYww3EiRdqmhYMCG6t3sHcsfIWxPXAs7Z3v2LperWuIQaV0qMHlTKHhm.apps.rwth-aachen.de');
 const Usersso = require('../models/usersso');
 var open = require('open');
 const browser = require('browser-detect');
@@ -131,5 +131,17 @@ router.post('/loginSSOCallback/:dc', (req, res) => {
     });
   }
 }); 
+
+
+router.get('/profile', (req, res) => {
+  // Search for user in database
+  user = req.decoded.userId;
+      if (!user) {
+        res.json({ success: false, message: 'User not found' }); // Return error, user was not found in db
+      } else {
+        res.json({ success: true, user: user }); // Return success, send user object to frontend for profile
+      }
+   
+});
   return router; // Return router object to main index.js
 }

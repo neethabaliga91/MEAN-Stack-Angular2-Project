@@ -33,19 +33,15 @@ export class EditTemplateComponent implements OnInit {
       this.form.get('title').disable(); // Disable title field
       this.form.get('body').disable(); // Disable body field
     }
-  updateWorkflowSubmit(){
+    updateTemplateSubmit(){
 
     this.processing = true; // Lock form fields
     // Function to send workflow object to backend
     this.disableFormNewworkflowForm(); // Lock form
     let now = new Date();
     // Create workflow object from form fields
-    const workflow = {
-      title: this.form.get('title').value, // Title field
-      body: this.form.get('body').value, // Body field
-      createdAt : now
-    }
-    this.workflowService.editTemplate(this.workflow).subscribe(data => {
+
+    this.workflowService.editTemplate().subscribe(data => {
       // Check if PUT request was a success or not
       if (!data.success) {
         this.messageClass = 'alert alert-danger'; // Set error bootstrap class
