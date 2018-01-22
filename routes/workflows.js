@@ -85,6 +85,7 @@ module.exports = (router) => {
 
   });
 
+  
   router.get('/singleWorkflow/:id', (req, res) => {
     if(!req.params.id){
       res.json({success : false, message: "Id not entered"});
@@ -286,5 +287,23 @@ module.exports = (router) => {
       });
     }
   });
+
+  router.get('/getSingleWorkflowAndSteps/:id', (req, res) => {
+    if (!req.params.id) {
+      res.json({ success: false, message: 'No id provided' }); // Return error message
+    } else {
+      // Check if id is found in database
+      Workflow.findOne({ _id: req.params.id }, (err, workflow) => {
+        Step.find({workflowId: req.params.id }, (err, steps)=>{
+          if (err) {
+            res.json({ success: false, message: err}); // Return error message
+          } else {
+            res.json({ success: true, workflow: workflow, steps : steps});
+          }
+        })
+      });
+    }
+  });
+
   return router;
 };

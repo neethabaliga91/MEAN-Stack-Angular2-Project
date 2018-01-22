@@ -67,4 +67,9 @@ username;
  
   }
 
+  getSingleWorkflowAndSteps(id){
+    this.createAuthenticationHeaders(); // Create headers
+    return this.http.get(this.domain + 'workflows/getSingleWorkflowAndSteps/'+id ,this.options).map(res => res.json());
+ 
+  }
 }

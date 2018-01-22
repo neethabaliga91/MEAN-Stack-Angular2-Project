@@ -57,32 +57,17 @@
 </form>
 <div class="container">
   <div *ngIf="!newPost && workflows && workflows.length !=0">
-    <div  class="panel panel-primary" *ngFor="let wf of workflows">
+    <div  class="panel panel-primary" *ngFor="let wf of workflows; let i = index">
       <div class="panel-heading">
         <h3 class="panel-title">{{wf.title}}</h3>
       </div>
       <div class="panel-body">
 
-        <form class="form-inline">
-          <div class="form-group">
-            <label>Choose Theme:</label>
-            <select class="theme_selector form-control">
-              <option value="default">default</option>
-              <option value="arrows">arrows</option>
-              <option value="circles">circles</option>
-              <option value="dots">dots</option>
-            </select>
-          </div>
-
-          <label>External Buttons:</label>
-          <div class="btn-group navbar-btn" role="group">
-            <button class="btn btn-default prev-btn"  type="button">Go Previous</button>
-            <button class="btn btn-default next-btn"  type="button">Go Next</button>
-            <button class="btn btn-danger reset-btn" type="button">Reset Wizard</button>
-          </div>
-        </form>
         <br />
         <br />
+        <a [routerLink]="['/view-workflow/', wf._id]">
+          <button type="button" name="button" class="btn btn-sm btn-warning">View</button>
+        </a>
         <a [routerLink]="['/step', wf._id]" *ngIf="username === wf.createdBy">
           <button type="button" name="button" class="btn btn-sm btn-info">Add Step</button>
         </a>
@@ -94,26 +79,8 @@
         </a>
         <br/> {{wf.body}}
         <br />
-        <div id="smartwizard" >
-        <div *ngFor="let s of subprocesses; let i = index" >
-            <ul>
-              <li *ngIf="s.workflowId == wf._id">
-                <a href="#step-{{i}}">{{s.title}}
-                <br />
-                <small>This is step description</small>
-                </a>
-              </li>
-            </ul>
-          
-            <div *ngIf="s.workflowId == wf._id">
-              <div  id="step-{{i}}" class="">
-                <h2>{{s.title}}</h2>
-                {{s.body}}
-              </div>
-            </div>
-        </div>
       </div>
-      </div>
+    
       <div class="panel-footer">
         <strong>Created by: </strong>{{wf.createdBy}}
         <br />

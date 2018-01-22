@@ -25,6 +25,7 @@ import { ArchwizardModule } from 'ng2-archwizard/dist';
 import { RwthssoComponent } from './components/rwthsso/rwthsso.component';
 import { TemplateWorkflowComponent } from './components/workflow/template-workflow/template-workflow.component';
 import { EditTemplateComponent } from './components/workflow/template-workflow/edit-template/edit-template.component';
+import { ViewWorkflowComponent } from './components/workflow/view-workflow/view-workflow.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { EditTemplateComponent } from './components/workflow/template-workflow/e
     StepComponent,
     RwthssoComponent,
     TemplateWorkflowComponent,
-    EditTemplateComponent
+    EditTemplateComponent,
+    ViewWorkflowComponent
   ],
   imports: [
     BrowserModule,
