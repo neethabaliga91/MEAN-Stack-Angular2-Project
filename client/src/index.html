@@ -7,10 +7,6 @@
   <base href="/">
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="/../assets/css/smart_wizard.css" rel="stylesheet" type="text/css" />
-   <link href="../assets/css/smart_wizard_theme_circles.css" rel="stylesheet" type="text/css" />
-   <link href="..//assets/css/smart_wizard_theme_arrows.css" rel="stylesheet" type="text/css" />
-   <link href="../assets/css/smart_wizard_theme_dots.css" rel="stylesheet" type="text/css" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -19,8 +15,19 @@
   <app-root></app-root>
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="/../assets/js/jquery.smartWizard.js"></script>  
+  <script type="text/javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js"></script>  
  
+  <script type="text/javascript">
+    $(document).ready(function() {
+    $('#rootwizard').bootstrapWizard({onTabShow: function(tab, navigation, index) {
+            var $total = navigation.find('li').length;
+            var $current = index+1;
+            var $percent = ($current/$total) * 100;
+            $('#rootwizard .progress-bar').css({width:$percent+'%'});
+        }});
+    });
+ </script>  
+
 </body>
 
 </html>

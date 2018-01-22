@@ -15,9 +15,6 @@
         
         <br />
         <br />
-        <a [routerLink]="['/view-workflow/', workflow._id]">
-          <button type="button" name="button" class="btn btn-sm btn-warning">View</button>
-        </a>
         <a [routerLink]="['/step', workflow._id]" *ngIf="username === workflow.createdBy">
           <button type="button" name="button" class="btn btn-sm btn-info">Add Step</button>
         </a>
@@ -29,41 +26,24 @@
         </a>
         <br/> {{workflow.body}}
         <br />
-        <form class="form-inline">
-          <div class="form-group">
-            <label>Choose Theme:</label>
-            <select class="form-control" id="theme_selector">
-              <option value="default">default</option>
-              <option value="arrows">arrows</option>
-              <option value="circles">circles</option>
-              <option value="dots">dots</option>
-            </select>
+        <div id="rootwizard">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="container">
+          <ul>
+              <li *ngFor="let s of subprocesses; let i = index"><a href="#tab{{i+1}}" data-toggle="tab">{{s.title}}</a></li>
+          </ul>
+           </div>
+            </div>
           </div>
-
-          <label>External Buttons:</label>
-          <div class="btn-group navbar-btn" role="group">
-            <button class="btn btn-default prev-btn"  type="button">Go Previous</button>
-            <button class="btn btn-default next-btn"  type="button">Go Next</button>
-            <button class="btn btn-danger reset-btn" type="button">Reset Wizard</button>
+            <div id="bar" class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+            </div>
+          <div class="tab-content">
+              <div *ngFor="let s of subprocesses; let i = index" class="tab-pane" id="tab{{i+1}}">
+                {{s.body}}
+              </div>
           </div>
-        </form>
-        <div id="smartwizard" >
-
-              <ul>
-                <li  *ngFor="let s of subprocesses; let i = index">
-                  <a href="#step-{{i+1}}">{{s.title}}
-                  <br />
-                  <small>This is step description</small>
-                  </a>
-                </li>
-              </ul>
-            
-                <div   *ngFor="let s of subprocesses; let i = index" id="step-{{i+1}}" class="">
-                  <h2>{{s.title}}</h2>
-                  {{s.body}}
-                </div>
-
-
         </div>
       </div>
     

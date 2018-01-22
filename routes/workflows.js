@@ -164,7 +164,7 @@ module.exports = (router) => {
     } else {
       // Check if id exists in database
       console.log('HI');
-      Workflow.findOne({ _id: req.body._id }, (err, workflow) => {
+      Workflow.findOne({ _id: req.params.id}, (err, workflow) => {
         // Check if id is a valid ID
         if (err) {
           res.json({ success: false, message: 'Not a valid Workflow id' }); // Return error message

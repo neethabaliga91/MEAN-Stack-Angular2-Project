@@ -40,8 +40,8 @@ export class EditTemplateComponent implements OnInit {
     this.disableFormNewworkflowForm(); // Lock form
     let now = new Date();
     // Create workflow object from form fields
-
-    this.workflowService.editTemplate().subscribe(data => {
+    this.currentUrl = this.activatedRoute.snapshot.params;
+    this.workflowService.editTemplate(this.currentUrl.id).subscribe(data => {
       // Check if PUT request was a success or not
       if (!data.success) {
         this.messageClass = 'alert alert-danger'; // Set error bootstrap class
