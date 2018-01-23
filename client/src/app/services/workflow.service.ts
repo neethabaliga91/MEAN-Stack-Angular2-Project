@@ -46,9 +46,9 @@ username;
     this.createAuthenticationHeaders(); // Create headers
    return this.http.put(this.domain + 'workflows/updateWorkflow/', workflow, this.options).map(res => res.json());
  }
- editTemplate(id) {
+  editTemplate(workflow) {
   this.createAuthenticationHeaders(); // Create headers
- return this.http.put(this.domain + 'workflows/updateTemplate/', id , this.options).map(res => res.json());
+ return this.http.put(this.domain + 'workflows/updateTemplate/', workflow , this.options).map(res => res.json());
 }
   deleteWorkflow(id) {
      this.createAuthenticationHeaders(); // Create headers

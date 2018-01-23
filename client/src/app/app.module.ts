@@ -24,8 +24,9 @@ import { StepComponent } from './components/workflow/step/step.component';
 import { ArchwizardModule } from 'ng2-archwizard/dist';
 import { RwthssoComponent } from './components/rwthsso/rwthsso.component';
 import { TemplateWorkflowComponent } from './components/workflow/template-workflow/template-workflow.component';
-import { EditTemplateComponent } from './components/workflow/template-workflow/edit-template/edit-template.component';
+import { EditTemplateComponent } from './components/workflow/edit-template/edit-template.component';
 import { ViewWorkflowComponent } from './components/workflow/view-workflow/view-workflow.component';
+import { TinymceModule } from 'angular2-tinymce';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,10 @@ import { ViewWorkflowComponent } from './components/workflow/view-workflow/view-
     ReactiveFormsModule,
     AppRoutingModule,
     FlashMessagesModule,
-    ArchwizardModule
+    ArchwizardModule,
+    TinymceModule.withConfig({
+      
+    })
   ],
   providers: [AuthService,SsoAuthService, AuthGuard, NotAuthGuard, WorkflowService],
   bootstrap: [AppComponent]

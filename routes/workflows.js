@@ -157,15 +157,11 @@ module.exports = (router) => {
   });
 
   router.put('/updateTemplate', (req, res) => {
-    // Check if id was provided
-    console.log('HI');
     if (!req.body._id) {
       res.json({ success: false, message: 'No Workflow id provided' }); // Return error message
     } else {
-      // Check if id exists in database
       console.log('HI');
-      Workflow.findOne({ _id: req.params.id}, (err, workflow) => {
-        // Check if id is a valid ID
+      Workflow.findOne({ _id: req.body._id}, (err, workflow) => {
         if (err) {
           res.json({ success: false, message: 'Not a valid Workflow id' }); // Return error message
         } else {
@@ -183,14 +179,15 @@ module.exports = (router) => {
                 if (!user) {
                   res.json({ success: false, message: 'Unable to authenticate user.' }); // Return error message
                 } else {
-                  const workflow = new Workflow({
+                  let now = new Date();
+                  const newworkflow = new Workflow({
                       title: req.body.title, // Title field
                       body: req.body.body, // Body field
                       createdBy: req.decoded.userId,
-                      createdAt: req.body.createdAt // CreatedBy field
+                      createdAt: now // CreatedBy field
                     });
                     // Save workflow into database
-                    workflow.save((err) => {
+                    newworkflow.save((err) => {
                       // Check if error
                       if (err) {
                         // Check if error is a validation error
@@ -209,28 +206,29 @@ module.exports = (router) => {
                           res.json({ success: false, message: err }); 
                         }
                       } 
-                    });
-                    Workflow.findOne({ createdBy: req.decoded.userId, createdAt : req.body.createdAt }, (err, wf) => {
-                     wf_id = wf._id;
-                     Step.find({workflowId : workflow._id}, (err, steps)=>{
-                      if (err) {
-                        res.json({ success: false, message: err}); // Return error message
-                      } else {
-                        if(!steps)
-                          res.json({ success: false, message: err }); // Return general error message
-                          else{
-                            for (var i=0; i<steps.length; i++) {
-                              var newstep = new Step({
-                                workflowId :  wf_id, // Title field
-                                title: steps[i].title, // Body field
-                                body:  steps[i].body
-                              });
-                                newstep.save({});
-                            }
-                            res.json({ success: false, message: "Template created as workflow!" });
-                          }
-                      }
-                    });
+
+                      Workflow.findOne({ createdBy: req.decoded.userId, createdAt : now }, (err, wf) => {
+                        wf_id = wf._id;
+                        Step.find({workflowId : workflow._id}, (err, steps)=>{
+                         if (err) {
+                           res.json({ success: false, message: err}); // Return error message
+                         } else {
+                           if(!steps)
+                             res.json({ success: false, message: err }); // Return general error message
+                             else{
+                               for (var i=0; i<steps.length; i++) {
+                                 var newstep = new Step({
+                                   workflowId :  wf_id, // Title field
+                                   title: steps[i].title, // Body field
+                                   body:  steps[i].body
+                                 });
+                                   newstep.save({});
+                               }
+                               res.json({ success: true, message: "Template created as workflow!" });
+                             }
+                         }
+                       });
+                       });
                     });
                 }
               }

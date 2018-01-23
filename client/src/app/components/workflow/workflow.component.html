@@ -27,6 +27,7 @@
 <form [formGroup]="form" name="workflowForm" (submit)="onworkflowSubmit()" *ngIf="newPost">
   <!-- Title Input -->
   <div class="form-group">
+      <app-tinymce [(ngModel)]='content'></app-tinymce>
     <label for="title">Title</label>
     <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
       <input type="text" name="title" class="form-control" placeholder="*workflow Title" autocomplete="off" formControlName="title"

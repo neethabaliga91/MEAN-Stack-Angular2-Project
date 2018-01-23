@@ -10,7 +10,7 @@ import { EditWorkflowComponent } from './components/workflow/edit-workflow/edit-
 import { DeleteWorkflowComponent } from './components/workflow/delete-workflow/delete-workflow.component';
 import { TemplateWorkflowComponent } from './components/workflow/template-workflow/template-workflow.component';
 import { ViewWorkflowComponent } from './components/workflow/view-workflow/view-workflow.component';
-import { EditTemplateComponent } from './components/workflow/template-workflow/edit-template/edit-template.component';
+import { EditTemplateComponent } from './components/workflow//edit-template/edit-template.component';
 import { StepComponent } from './components/workflow/step/step.component';
 import { NotAuthGuard } from './guards/notAuth.guard';
 import { AuthGuard } from './guards/auth.guard';
